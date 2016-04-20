@@ -1,0 +1,22 @@
+<table class="table table-striped txtsmall2 table-hover table-condensed" id="example">
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Grs</th>
+            <th>Alt.</th>
+            <th>Larg.</th>
+        </tr>
+    </thead>
+	<tbody>    
+    <?php $i = 1;?>
+    <?php foreach ($this->papers as $paper):?>
+    <tr onclick="sendRaw(<?=$i?>)">
+        <td id="raw-id-name-<?=$i;?>"><?=utf8_encode($paper['name'])?></td>
+        <td id="raw-id-grs-<?=$i;?>"><?=$paper['fvals_0'];?></td>
+        <td id="raw-id-alt-<?=$i;?>"><?=$paper['fvals_1'];?></td>
+        <td id="raw-id-larg-<?=$i;?>"><?=$paper['fvals_2'];?></td>
+    </tr>
+    <?php $i++?>
+    <?php endforeach;?>
+   </tbody>     
+</table>

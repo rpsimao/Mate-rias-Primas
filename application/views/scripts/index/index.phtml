@@ -1,0 +1,15 @@
+<?php if (count($this->messages) > 0): ?>
+<div class="left-50 right-50 sp-left-50 sp-right-50 500px">
+<?php if ($this->messages[0] == "error"): ?>
+<?=$this->Flashinfo('error', $this->messages[1]);?>
+<?php elseif ($this->messages[0] == "success"):?>
+<?=$this->Flashinfo('success', $this->messages[1]);?>
+<?php else:?>
+<?=$this->Flashinfo('info', $this->messages[1]);?>
+<?php endif;?>
+</div>
+<?php endif;?>
+<div class="initform" id="initform">
+<legend><i class="icon-archive" id="init-form"></i> Nº Obra</legend>
+<?=$this->form->render();?>
+</div>

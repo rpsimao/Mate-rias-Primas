@@ -1,0 +1,87 @@
+<?php $this->headScript()->appendFile('/js/dataTableInit.js','text/javascript');?>
+<div class="container-fluid "> 
+        <div class="row-fluid"> 
+           <div class="span12 registo txtsmall2">
+		    <h3><i class="icon-file-alt"></i> <u>Info</u></h3>
+			<table class="table table-striped txtsmall2">
+				<tr>
+					<th><i class="icon-list-alt"></i> Obra</th>
+					<th><i class="icon-user"></i> Cliente</th>
+					<th><i class="icon-folder-close"></i> Produto</th>
+					<th><i class="icon-calendar"></i> Entrada</th>
+					<th><i class="icon-calendar"></i> Entrega</th>
+				</tr>
+			   <tr class="txtsmall2">
+			        <td id="jobnumber"><?=$this->details[0]['obra'];?></td>
+			        <td><?=$this->details[0]['cliente'];?></td>
+			        <td><?=$this->details[0]['descricao'];?></td>
+			        <td><?=$this->details[0]['abertura_obra'];?></td>
+			        <td><?=$this->details[0]['data_entrega'];?></td>
+			    </tr>
+			</table>
+			<div class="pull-right" id="loading-animation"></div>
+			<h3><i class="icon-file-alt"></i> <u>Matéria Prima</u></h3>
+			
+			<table class="table table-striped txtsmall2" id="mat-prima-table">
+			 <thead>
+				<tr>
+				    <th></th>
+					<th><i class="icon-map-marker"></i> Tipo</th>
+					<th><i class="icon-sort"></i> Grs</th>
+					<th><i class="icon-resize-vertical"></i> Alt.</th>
+					<th><i class="icon-resize-horizontal"></i> Larg.</th>
+					<th><i class="icon-align-justify"></i> Qtd. Pedida</th>
+					<th><i class="icon-home"></i> Qtd. Armaz.</th>
+					<th><i class="icon-truck"></i> Qtd. a Encom.</th>
+					<th><i class="icon-leaf"></i> FSC</th>
+					<th><i class="icon-leaf"></i> PEFC</th>
+					<th><i class="icon-comment"></i> Obs</th>
+					<th><i class="icon-gears"></i> Opções</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php $howmany = 0;?>
+				<?php $i = 1;?>
+				<?php foreach ($this->raw as $raw):?>
+				<?php if ($raw["checkencomenda"] != 1):?>
+				<?php $howmany++;?>
+				<tr class="txtsmall2" id="tr-row-<?=$i;?>">
+				    <td><input type="hidden" value="<?=$raw["id"]?>" id="id<?=$i?>"></td>
+				    <td><span id="tipo<?=$i;?>"><?=$raw["tipo"];?></span></td>
+				    <td id="grs<?=$i;?>"><?=$raw["grs"];?></td>
+				    <td id="altura<?=$i;?>"><?=$raw["altura"];?></td> 
+				    <td id="largura<?=$i;?>"><?=$raw["larg"];?></td>
+				    <td id="qtdped<?=$i;?>"><span id="pedida<?=$raw["id"]?>"><?=$raw["qty_req"];?></span></td>
+				    <td><input type="text" class="input-mini" id="armazem<?=$i;?>" onblur="calculateQty(<?=$i?>)"></td>
+				    <td><span class="txt-enc" id="aencomendar<?=$i?>"></span></td>
+				    <td id="fsc<?=$i;?>"><?=RPS_Auxiliar_Checkboxes::reverseTranslateCheckboxes($raw['fsc']);?></td>
+			        <td id="pefc<?=$i;?>"><?=RPS_Auxiliar_Checkboxes::reverseTranslateCheckboxes($raw['pefc']);?></td>
+				    <td><span id="obs<?=$i?>"><?=$raw["obs"];?></span></td>
+				    <td>
+				        <span id="edit-buttons-<?=$i?>"><span id="obs<?=$i?>edit"><button id="btn-edit-<?=$i?>" class="btn btn-mini btn-primary left-10" onclick="obs(<?=$i?>,<?=$raw["id"]?>)">Editar</button></span>
+				        <button id="del<?=$i?>" class="btn btn-mini btn-danger left-10" onclick="confirmDel(<?=$i?>,<?=$raw["id"]?>)">Apagar</button></span>
+				    </td>
+				</tr>
+				<?php $i++;?>
+				<?php endif;?>
+				<?php endforeach;?>
+				</tbody>
+			</table>
+			<div class="pull-right">
+			    <button id="saveAllBtn" class="btn btn-success btn-mini" onclick="saveAll(<?=$howmany;?>, <?=$raw["id"]?>)"><i class="icon-cloud-upload"></i>&nbsp;Actualizar</button>
+			    <button id="closeAllBtn" class="btn btn-info btn-mini" onclick="closeAll()"><i class="icon-remove-sign"></i>&nbsp;Fechar</button>
+		    </div>
+		</div>
+	</div>
+</div>
+<input type="hidden" value="" name="row-for-paper-id" id="row-for-paper-id">
+<script type="text/javascript">
+$(function(){
+for (var i=1; i<=<?=$howmany?>; i++){onlyInt("armazem"+i);}
+});
+</script>
+<?=$this->partial('partials/rawmaterial.phtml', array('cache'=>$this->cache, 'papers'=>$this->papers));?>
+<span id="countrows" style="display: none;"><?=$howmany;?></span>
+<div id="dialog-confirm" title="Apagar Registo" style="display: none;">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Tem a certeza que quer apagar o registo?</p>
+</div> 

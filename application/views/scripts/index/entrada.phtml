@@ -1,0 +1,155 @@
+<?php if ($this->errors) : ?>
+
+
+<div class="initform" id="initform">
+<legend><i class="icon-archive" id="init-form"></i> Nº Obra</legend>
+<?=$this->form->render();?>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#obra").focus();
+});
+</script>
+<?php else:?>
+<?php $this->headScript()->appendFile('/js/dataTableInit.js','text/javascript');?>
+<div class="container-fluid "> 
+
+        <div class="row-fluid"> 
+           <div class="span12 registo txtsmall2">
+<div class='my-right notifications up-right'></div>
+<span id="msg"></span>
+
+<h3><i class="icon-edit"></i><u>Info</u></h3><br />
+           
+<form action="/index/fase1" method="post" id="entrada_materia_primas" enctype="application/x-www-form-urlencoded" class="form-horizontal" onsubmit="return checkForm()">
+
+<table class="td-sp-dir-10 txtsmall2">
+    <tr>
+    <td>
+     <label for="obra"><i class="icon-archive"></i> Nº Obra:&nbsp;</label>
+     <input type="text" name="obra" id="obra" placeholder="Nº Obra" value="<?=$this->jobData[0]['j_number']?>" class="input-small">
+    </td>
+    <td>
+     <label  for="cliente"><i class="icon-user"></i> Cliente:&nbsp;</label>
+     <input type="text" id="cliente" name="cliente" placeholder="Cliente" value="<?=utf8_encode($this->jobData[0]['j_customer'])?>" autocomplete="off">
+    </td>
+    <td>
+     <div class="input-prepend">
+         <label  for="abertura_obra">Data Abertura Obra:&nbsp;</label>
+         <span class="add-on"><i class="icon-calendar"></i></span>
+         <input type="text" id="abertura_obra" name="abertura_obra" placeholder="Data Abertura Obra" value="<?=$this->jobData[0]['j_datein']?>" class="input-small">
+     </div>  
+    </td>
+    <td>
+     <div class="input-prepend">
+         <label  for="data_entrega">Data Entrega:&nbsp;</label>
+         <span class="add-on"><i class="icon-calendar"></i></span>
+         <input type="text" id="data_entrega" name="data_entrega" placeholder="Data Entrega" value="<?=utf8_encode($this->jobData[0]['j_deldate'])?>" class="input-small" >
+    </div>
+    </td>
+    </tr>
+</table>
+<br />
+<table>    
+    <tr>
+    <td>
+     <label for="descricao"><i class="icon-file-text"></i> Trabalho:&nbsp;</label>
+     <input type="text" id="descricao" name="descricao" placeholder="Trabalho" value="<?=utf8_encode($this->jobData[0]['j_title1'] . " - " . $this->jobData[0]['j_title2'])?>" class="input-xxlarge">  
+    </td>
+    
+    </tr>
+</table>
+
+
+<br />
+ <h3><i class="icon-edit"></i> <u>Matéria Prima</u><div class="pull-right"><button class="btn btn-small btn-success" type="button" onclick="createRow();"><i class="icon-plus-sign"></i>&nbsp;&nbsp;&nbsp;Criar linha</button></div></h3>
+ 
+ <br />
+
+<table id="mat-prima-table">
+<?php $i = 1;?>
+<?php $fto = new RPS_Auxiliar_FtoPapel();?>
+<?php foreach ($this->raw as $inf):?>
+<?php $fto->setFto($inf['item']);?>
+<?php $dados = $fto->returnFto();?>
+
+
+<tr id="rawInputField<?=$i;?>">
+<td id="td-tipo-<?=$i;?>">
+    <label class="" for="tipo<?=$i;?>"><i class="icon-map-marker"></i> Tipo:&nbsp; <a href="#" onclick="listPaper(<?=$i;?>)"><i class="icon-info-sign"></i></a></label>
+    <input type="text" value="<?=$inf['name']?>" class="input-xlarge" id="tipo<?=$i;?>" name="tipo<?=$i;?>" onfocus="selectBox('tipo<?=$i;?>');">
+</td>
+<td id="td-grs-<?=$i;?>">
+    <label class="" for="grs<?=$i;?>"><i class="icon-sort"></i> Grs.:&nbsp;</label>
+    <input type="text" value="<?=$dados['grs']?>" class="input-mini" id="grs<?=$i;?>" name="grs<?=$i;?>">
+</td>
+<td id="td-altura-<?=$i;?>">
+    <label class="" for="altura<?=$i;?>"><i class="icon-resize-vertical"></i> Alt:&nbsp;</label>
+    <input type="text" value="<?=$dados['alt']?>" class="input-mini" id="altura<?=$i;?>" name="altura<?=$i;?>">
+</td>
+<td id="td-larg-<?=$i;?>">
+    <label class="" for="larg<?=$i;?>"><i class="icon-resize-horizontal"></i> Larg:&nbsp;</label>
+    <input type="text" value="<?=$dados['larg']?>" class="input-mini" id="larg<?=$i;?>" name="larg<?=$i;?>">
+</td>
+<td id="td-qtd_req-<?=$i;?>">
+    <label id="drag-<?=$i?>" class="<?=$inf['qty_req']?>" for="qtd_req<?=$i;?>"><i class="icon-align-justify" ></i> Qtd:&nbsp;</label>
+    <input type="text" value="<?=$inf['qty_req']?>" class="input-mini" id="qtd_req<?=$i;?>" name="qtd_req<?=$i;?>">
+</td>
+<td class="sp-left-20" id="td-fsc-<?=$i;?>">
+    <label class="" for="fsc<?=$i;?>"><i class="icon-leaf"></i> FSC:&nbsp;</label>
+    <input type="checkbox" <?= $fto->checkFSC($inf['item']);?> id="fsc<?=$i;?>" name="fsc<?=$i;?>">
+</td>
+<td class="sp-left-20" id="td-pefc-<?=$i;?>">
+    <label class="" for="pefc<?=$i;?>"><i class="icon-leaf"></i> PEFC:&nbsp;</label>
+    <input type="checkbox" <?= $fto->checkPEFC($inf['item']);?> id="pefc<?=$i;?>" name="pefc<?=$i;?>">
+</td>
+<td class="sp-left-20">
+    <label class="" for="obs<?=$i;?>"><i class="icon-comment"></i> Obs:&nbsp;</label>
+    <button class="btn btn-mini btn-info" type="button" id="obsButton<?=$i;?>" onclick="showObs(<?=$i;?>);"><i class="icon-pencil"></i>&nbsp;Escrever</button>
+    <textarea rows="6" class="span8" id="obs<?=$i;?>" name="obs<?=$i;?>" style="display:none;"></textarea>
+</td>
+<td class="sp-left-20" id="td-btn-<?=$i;?>">
+    <label>&nbsp;</label>
+    <button class="btn btn-mini btn-danger" type="button" onclick="removeField(<?=$i;?>);"><i class="icon-remove-sign"></i>&nbsp;Remover</button>
+</td>
+</tr>
+<?php $i++;?>
+<?php endforeach;?>
+
+</table>
+<div  class="top-20 ">
+<input type="hidden" value="<?=$i;?>" name="rawrows" id="rawrows">
+<input type="hidden" value="0" name="armazem" id="armazem">
+<input type="hidden" value="0" name="encomendado" id="encomendado">
+<input type="hidden" value="" name="row-for-paper-id" id="row-for-paper-id">
+<input type="submit" value="Enviar" class="btn  btn-primary">
+</div>
+</form> 
+ 
+</div>
+</div>
+</div>
+
+ 
+ 
+<script type="text/javascript">
+
+
+$(function() {
+		var availableTags = [<?=$this->customers;?>];
+		 $("#cliente").typeahead({
+			source: availableTags
+		});
+
+		       
+	     
+			
+	});
+
+
+</script>
+
+<?=$this->partial('partials/rawmaterial.phtml', array('cache' => $this->cache, 'papers'=>$this->papers));?> 
+
+ 
+<?php endif;?> 

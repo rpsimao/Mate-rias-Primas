@@ -1,0 +1,31 @@
+<div class="container-fluid "> 
+        <div class="row-fluid"> 
+           <div class="span12 registo txtsmall2">
+		    <h3><i class="icon-file-alt"></i> <u>Controlo Armazém</u></h3>
+			<table class="table table-striped txtsmall tt">
+				<tr>
+					<th><i class="icon-list-alt"></i> Obra</th>
+					<th><i class="icon-user"></i> Cliente</th>
+					<th><i class="icon-folder-close"></i> Produto</th>
+					<th><i class="icon-calendar"></i> Entrada</th>
+					<th><i class="icon-calendar"></i> Entrega</th>
+				</tr>
+				 <?php if(count($this->records) > 0):?>
+			     <?php foreach ($this->records as $record):?>
+			    
+			    <tr onclick="window.location='/armazem/details/<?=$record['obra']?>'" style="cursor:pointer;">
+			        <td><?=$record['obra'];?>
+			        <td><?=$record['cliente'];?>
+			        <td><?=$record['descricao'];?>
+			        <td><?=$record['abertura_obra'];?>
+			        <td><?=$record['data_entrega'];?>
+			    </tr>
+			    <?php endforeach;?>
+			 </table>
+			<?php else:?>
+			        </table>
+			        <h3>Não existe matéria prima para aviar.</h3>
+			<?php endif?>
+		</div>
+	</div>
+</div>

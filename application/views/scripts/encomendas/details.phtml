@@ -1,0 +1,156 @@
+<?php $this->headScript()->appendFile('/js/dataTableInit.js','text/javascript');?>
+<div class="container-fluid "> 
+        <div class="row-fluid"> 
+           <div class="span12 registo txtsmall2">
+           <div class='my-right notifications up-right'></div>
+           <div class="pull-right" id="loading-animation"></div>
+		    <h3><i class="icon-file-alt"></i> <u>Info</u></h3>
+			<table class="table table-striped txtsmall2">
+				<tr>
+					<th><i class="icon-list-alt"></i> Obra</th>
+					<th><i class="icon-user"></i> Cliente</th>
+					<th><i class="icon-folder-close"></i> Produto</th>
+					<th><i class="icon-calendar"></i> Entrada</th>
+					<th><i class="icon-calendar"></i> Entrega</th>
+				</tr>
+			   <tr class="txtsmall2">
+			        <td id="jobnumber"><?=$this->details[0]['obra'];?></td>
+			        <td><?=$this->details[0]['cliente'];?></td>
+			        <td><?=$this->details[0]['descricao'];?></td>
+			        <td><?=$this->details[0]['abertura_obra'];?></td>
+			        <td><?=$this->details[0]['data_entrega'];?></td>
+			    </tr>
+			</table>
+			
+			<h3><i class="icon-file-alt"></i> <u>Matéria Prima</u><div class="pull-right"><button class="btn btn-small btn-success" type="button" onclick="createRow();"><i class="icon-plus-sign"></i>&nbsp;&nbsp;&nbsp;Criar linha</button></div></h3>
+			
+			<table class="table table-striped txtsmall2" id="mat-prima-table">
+			 <thead>
+				<tr>
+				    <th></th>
+					<th><i class="icon-map-marker"></i> Tipo</th>
+					<th><i class="icon-sort"></i> Grs</th>
+					<th><i class="icon-resize-vertical"></i> Alt.</th>
+					<th><i class="icon-resize-horizontal"></i> Larg.</th>
+					<th><i class="icon-align-justify"></i> Qtd. Pedida</th>
+					<th><i class="icon-home"></i> Qtd. Armaz.</th>
+					<th><i class="icon-truck"></i> Qtd. a Encom.</th>
+					<th><i class="icon-leaf"></i> FSC</th>
+					<th><i class="icon-leaf"></i> PEFC</th>
+					<th><i class="icon-comment"></i> Obs</th>
+					<th><i class="icon-gears"></i> Opções</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php $howmany = 0;?>
+				<?php $i = 1;?>
+				<?php foreach ($this->raw as $raw):?>
+				<?php if ($raw["checkencomenda"] == 1):?>
+				<?php $howmany++;?>
+				<tr class="txtsmall2" id="tr-row-<?=$i;?>">
+				    <td><input type="hidden" value="<?=$raw["id"]?>" id="id<?=$i?>"></td>
+				    <td><span id="tipo<?=$i;?>"><?=$raw["tipo"];?></span></td>
+				    <td id="grs<?=$i;?>"><?=$raw["grs"];?></td>
+				    <td id="altura<?=$i;?>"><?=$raw["altura"];?></td> 
+				    <td id="largura<?=$i;?>"><?=$raw["larg"];?></td>
+				    <td id="qtdped<?=$i;?>"><span id="pedida<?=$raw["id"]?>"><?=$raw["qty_req"];?></span></td>
+				    <td id="qtd_armz<?=$i;?>"><?=$raw['qtd_armz']?></td>
+				    <td><span class="txt-enc" id="aencomendar<?=$i?>"><?=$raw['qtd_aencomendar']?></span></td>
+				    <td id="fsc<?=$i;?>"><?=RPS_Auxiliar_Checkboxes::reverseTranslateCheckboxes($raw['fsc']);?></td>
+			        <td id="pefc<?=$i;?>"><?=RPS_Auxiliar_Checkboxes::reverseTranslateCheckboxes($raw['pefc']);?></td>
+				    <?php if(!empty($raw["obs"])):?>
+		                <td><span style="cursor:pointer;" class="obsTooltip" id="obs<?=$i?>"  onclick='showObsTxt(<?=$raw["id"]?>)'><?=RPS_Auxiliar_XChars::short(15, $raw["obs"]);?></span></td>
+				    <?php else:?>
+				        <td></td>
+				    <?php endif;?>
+				    <td>
+				        <span id="edit-buttons-<?=$i?>"><span id="obs<?=$i?>edit"><button id="btn-edit-<?=$i?>" class="btn btn-mini btn-primary left-10" onclick="obs(<?=$i?>,<?=$raw["id"]?>)">Editar</button></span>
+				        <button id="del<?=$i?>" class="btn btn-mini btn-danger left-10" onclick="confirmDel(<?=$i?>,<?=$raw["id"]?>)">Apagar</button></span>
+				    </td>
+				</tr>
+				<?php $i++;?>
+				<?php endif;?>
+				<?php endforeach;?>
+				</tbody>
+			</table>
+			
+			<h3><i class="icon-file-alt"></i> <u>Fornecedores</u></h3>
+			<table class="table table-striped txtsmall2 table-bordered" id="table-fornecedores">
+			    <thead>
+			        <tr>
+			            <th class="theader">P.P.</th>
+			            <th class="theader" colspan="2">Antalis</th>
+			            <th class="theader" colspan="2">Inapa</th>
+			            <th class="theader" colspan="2">Torras</th>
+			            <th class="theader" colspan="3">Outro</th>
+			            <th class="theader">Mapa</th>
+			    </thead>
+			<tbody>
+			    <tr>
+			        <td>2%</td>
+			        <td>&euro;/ton</td>
+			        <td>&euro;/total</td>
+			        <td>&euro;/ton</td>
+			        <td>&euro;/total</td>
+			        <td>&euro;/ton</td>
+			        <td>&euro;/total</td>
+			        <td>Nome</td>
+			        <td>&euro;/ton</td>
+			        <td>&euro;/total</td>
+			        <td><i class="icon-upload-alt"></i></td>
+			    </tr>
+			    <?php for ($a = 1; $a <= $howmany; $a++):?>
+			    <tr>
+			        <td><input type="checkbox" value="0" id="antalis_pp-<?=$a?>" onclick='doisPorCento("antalis_total-<?=$a?>", <?=$a?>)' disabled></td>
+			        <td id="antalis_ton-<?=$a?>"><input class="input-mini" type="text" id="antalis_ton_txt-<?=$a?>" onblur='calcForn("antalis_ton_txt-<?=$a?>", "antalis_total-<?=$a?>", <?=$a?>)'></td>
+			        <td id="antalis_total-<?=$a?>" class="txt-blue"></td>
+			        <td id="inapa_ton-<?=$a?>"><input class="input-mini" type="text" id="inapa_ton_txt-<?=$a?>" onblur='calcForn("inapa_ton_txt-<?=$a?>", "inapa_total-<?=$a?>", <?=$a?>)'></td>
+			        <td id="inapa_total-<?=$a?>" class="txt-blue"></td>
+			        <td id="torras_ton-<?=$a?>"><input class="input-mini" type="text" id="torras_ton_txt-<?=$a?>" onblur='calcForn("torras_ton_txt-<?=$a?>", "torras_total-<?=$a?>", <?=$a?>)'></td>
+			        <td id="torras_total-<?=$a?>" class="txt-blue"></td>
+			        <td><input type="text" id="outro-nome-<?=$a?>" class="input-mini"></td>
+			        <td id="outro_ton-<?=$a?>"><input class="input-mini" type="text" id="outro_ton_txt-<?=$a?>" onblur='calcForn("outro_ton_txt-<?=$a?>", "outro_total-<?=$a?>", <?=$a?>)'></td>
+			        <td id="outro_total-<?=$a?>" class="txt-blue"></td>
+			        <td><input type="checkbox" name="mapa-<?=$a?>" value="0" id="mapa-<?=$a?>" onclick='toMapa(<?=$a?>)'></td>
+			    </tr>
+			<?php endfor;?>
+			
+			</tbody>
+			</table>
+			<div class="pull-right right-150">
+			<table>
+			    <tr>
+			    <td>Total c/ IVA:</td>
+			    <td id="total-papel"></td>
+			    </tr>
+			</table>
+			</div>
+			<br><br>
+			<div class="pull-right">
+			    <button id="saveAllBtn" class="btn btn-warning btn-mini" onclick="calculateFinalPrice()"><i class="icon-refresh"></i>&nbsp;Actualizar</button>
+			    <button id="closeAllBtn" class="btn btn-info btn-mini" onclick="closeAll()"><i class="icon-remove-sign"></i>&nbsp;Fechar</button>
+		    </div>
+		</div>
+	</div>
+</div>
+<input type="hidden" value="" name="row-for-paper-id" id="row-for-paper-id">
+<script type="text/javascript">
+$(function(){for (var i=1; i<=<?=$howmany?>; i++){onlyInt("armazem"+i);}});
+</script>
+<?=$this->partial('partials/rawmaterial.phtml', array('cache'=>$this->cache, 'papers'=>$this->papers));?>
+<span id="countrows" style="display: none;"><?=$howmany;?></span>
+<div id="dialog-confirm" title="Apagar Registo" style="display: none;">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Tem a certeza que quer apagar o registo?</p>
+</div>
+<input type="hidden" value="<?=$howmany;?>" name="rawrows" id="rawrows">
+<div id="obsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="obsModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Observações</h3>
+  </div>
+  <div class="modal-body" id="ObsModalTxt">
+    
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar</button>
+  </div>

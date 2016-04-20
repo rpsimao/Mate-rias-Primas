@@ -1,0 +1,299 @@
+@CHARSET "UTF-8";
+@font-face {
+    font-family: 'TitilliumWeb-Regular';
+    src: url('http://cdn.fterceiro.pt/library/fonts/Titillium_Web/TitilliumWeb-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'TitilliumWeb-Bold';
+    src: url('http://cdn.fterceiro.pt/library/fonts/Titillium_Web/TitilliumWeb-Bold.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+*{
+	font-family: "TitilliumWeb-Regular", Arial, Helvetica, Geneva, sans-serif;
+}
+body {
+	padding-top: 60px;
+	background-color: #f9f9f9;
+	
+}
+
+.txt-blue {
+	color: #0064cd;
+}
+
+
+
+.initform {
+	margin: auto;
+	width: 250px;
+	border: 1px solid silver;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 25px;
+	background-color: white;
+}
+.mywhite {
+	background-color: white;
+}
+
+.newform {
+	margin: auto;
+	width: 450px;
+	border: 1px solid silver;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 25px;
+	background-color: white;
+}
+
+.registo {
+	border: 1px solid silver;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 25px;
+	background-color: white;
+}
+
+.sz-12 {
+	font-size: 12px;
+}
+.sz-14 {
+	font-size: 14px;
+}
+.sz-16 {
+	font-size: 16px;
+}
+.sz-18 {
+	font-size: 18px;
+}
+.sz-20 {
+	font-size: 20px;
+}
+.sp-bottom-5{
+	margin-bottom: 5px;
+}
+.sp-bottom-8{
+	margin-bottom: 8px;
+}
+.sp-bottom-10{
+	margin-bottom: 10px;
+}
+
+.sp-top-10{
+	margin-top: 10px;
+}
+
+.sp-bottom-50{
+	margin-bottom: 50px;
+}
+
+.sp-bottom-30{
+	margin-bottom: 30px;
+}
+
+.sp-bottom-20{
+	margin-bottom: 20px;
+}
+
+.sp-bottom-10{
+	margin-bottom: 10px;
+}
+.sp-bottom-80{
+	margin-bottom: 80px;
+}
+.icon-6x{font-size:6em}
+.icon-6x.icon-border{border-width:4px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px}
+.icon-5x{font-size:5em}
+.icon-5x.icon-border{border-width:4px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px}
+.pad-top-10{
+	padding-top: 10px;
+}
+.pad-top-30{
+	padding-top: 30px;
+}
+
+.top-5 {
+	margin-top: 5px;
+}
+.top-10 {
+	margin-top: 10px;
+}
+.top-20 {
+	margin-top: 20px;
+}
+.right-5{
+	margin-right: 5px;
+}
+.txt-12 {
+	font-size: 12px;
+}
+.bold {
+	font-weight: bold;
+}
+.sp-left-20
+{
+	padding-left: 20px;
+}
+
+.500px {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.sp-left-50{
+	padding-left: 50px;
+}
+
+.left-10{
+	margin-left: 10px;
+}
+
+.sp-right-50{
+	padding-right: 50px;
+}
+
+.left-50{
+	margin-left: 50px;
+}
+
+.right-50{
+	margin-right: 50px;
+}
+
+.right-150{
+	margin-right: 150px;
+}
+
+.RPS_drag {
+	background-color: #dcf0fe;
+	padding: 3px;
+	border: 1px dashed #576c92;
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+.left-20 {
+	margin-left: 20px;
+}
+.left-25 {
+	margin-left: 25px;
+}
+.left-30 {
+	margin-left: 30px;
+}
+.txt-req {
+	color: red;
+}
+
+.errors ul {
+	list-style-type: none;
+}
+.errors li {
+	list-style-type: none;
+	color: #ff5a56;
+}
+.cinza {
+	color: #00104e;
+}
+.sp-top-30 {
+	margin-top: 30px;
+}
+.sp-top-50 {
+	margin-top: 50px;
+}
+.pad-right-20 {
+	padding-right: 20px;
+}
+
+.divide {
+	border-top: 1px solid #e7e7e7;
+	padding-top: 10px;
+}
+.pageof {
+	font-size: 85%;
+}
+
+.icon-edit-thumb {
+	text-align: center;
+	padding: 20px;
+	margin-left: 40px;
+}
+.txt-edit {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.legenda {
+	float: left;
+	width: 250px;
+	padding-left: 5px;
+	font-size: 85%;
+}
+
+#red-square {
+	width: 10px;
+	height: 10px;
+	background-color: #e5d884;
+	
+}
+#black-square {
+	width: 10px;
+	height: 10px;
+	background-color: #373737;
+	
+}
+.td-sp-dir-10 td{
+	padding-right: 10px;
+}
+.txtsmall {
+	font-size: 95%;
+}
+.txtsmall2 {
+	font-size: 95%;
+}
+
+.tt tr:hover, tr.alt:hover
+{
+background: #e1f3f6;
+}
+
+.txt-enc {
+	color: #d69500;
+}
+
+.err-txt {
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+.strike {
+	text-decoration: line-through;
+}
+#myModal .modal-body {
+    max-height: 800px;
+}
+#myModal {
+	width: 750px; /* SET THE WIDTH OF THE MODAL */
+	margin: 0 0 0 -450px; /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
+}
+
+.my-right {
+	float: right;
+	position: relative;
+}
+.errrosForInput input[type="text"]{
+	background-color: #ffd7dd;
+}
+
+.theader {
+	font-family: 'TitilliumWeb-Bold';
+}

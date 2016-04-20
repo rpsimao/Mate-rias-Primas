@@ -1,0 +1,39 @@
+<?php if (!($this->cache->start('rawmaterialtab'))):?>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Matéria Prima</h3>
+  </div>
+  <div class="modal-body">
+   
+<table class="table table-striped txtsmall2 table-hover table-condensed" id="example">
+    <thead>
+        <tr>
+            <th>Cód.</th>
+            <th>Descrição</th>
+            <th>Grs</th>
+            <th>Alt.</th>
+            <th>Larg.</th>
+        </tr>
+    </thead>
+	<tbody>    
+    <?php $i = 1;?>
+    <?php foreach ($this->papers as $paper):?>
+    <tr onclick="sendRaw(<?=$i?>)">
+        <td id="raw-id-cod-<?=$i;?>"><?=utf8_encode($paper['code'])?></td>
+        <td id="raw-id-name-<?=$i;?>"><?=utf8_encode($paper['name'])?></td>
+        <td id="raw-id-grs-<?=$i;?>"><?=$paper['fvals_0'];?></td>
+        <td id="raw-id-alt-<?=$i;?>"><?=$paper['fvals_1'];?></td>
+        <td id="raw-id-larg-<?=$i;?>"><?=$paper['fvals_2'];?></td>
+    </tr>
+    <?php $i++?>
+    <?php endforeach;?>
+   </tbody>     
+</table>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+<?php $this->cache->end(); endif;?>
